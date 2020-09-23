@@ -193,6 +193,18 @@ function resources(o: GenericStore): ResourceConstant[] {
     }
 }
 
+// Game.cpu.unlock()
+{
+    if (!Game.cpu.unlocked) {
+        if (!Game.cpu.unlockedTime) {
+            const unlock_state = Game.cpu.unlock();
+            if (unlock_state === OK) {
+                // Unlimited cosmic power!
+            }
+        }
+    }
+}
+
 // Game.getObjectById(id)
 
 {
@@ -569,6 +581,7 @@ function resources(o: GenericStore): ResourceConstant[] {
     towers[0].attack(creeps[0]);
     towers[0].attack(creeps[0] as AnyCreep);
     towers[0].attack(powerCreep);
+    towers[0].attack(spawns[0]);
     towers[0].heal(powerCreep);
 }
 
@@ -883,4 +896,26 @@ function atackPower(creep: Creep) {
     factory.produce(RESOURCE_GHODIUM_MELT);
 
     creep.withdraw(factory, RESOURCE_PHLEGM);
+}
+
+// <strike>Horse armor!</strike>Pixels!
+{
+    const ret: OK | ERR_NOT_ENOUGH_RESOURCES | ERR_FULL = Game.cpu.generatePixel();
+}
+
+// Game.map.visual
+{
+    const mapVis = Game.map.visual;
+    const point1 = new RoomPosition(1, 1, "E1N1");
+    const point2 = new RoomPosition(1, 1, "E1N8");
+    const point3 = new RoomPosition(1, 1, "E8N8");
+    const point4 = new RoomPosition(1, 1, "E1N8");
+
+    mapVis
+        .line(point1, point2)
+        .circle(point3, { fill: "#f2f2f2" })
+        .poly([point1, point2, point3, point4])
+        .rect(point3, 50, 50);
+
+    const size: number = mapVis.getSize();
 }

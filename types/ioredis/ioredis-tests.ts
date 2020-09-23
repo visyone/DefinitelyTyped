@@ -17,6 +17,9 @@ const cbNumber = (err: Error | null, result: any) => {
 redis.set('foo', 'bar');
 redis.get('foo', cb);
 
+redis.getrangeBuffer("foo", 0, 1, cb);
+redis.getrangeBuffer("foo", 0, 1).then(b => cb(null, b));
+
 // Static check that returned value is always a number
 redis.del('foo', 'bar').then(result => result * 1);
 
@@ -279,6 +282,7 @@ new Redis({
     port: 6379, // Redis port
     host: '127.0.0.1', // Redis host
     family: 4, // 4 (IPv4) or 6 (IPv6)
+    username: 'user',
     password: 'auth',
     db: 0,
     retryStrategy() {
@@ -312,6 +316,7 @@ pipeline.hset('hash', 'foo', 4);
 pipeline.hget('hash', 'foo');
 pipeline.hsetBuffer('hash', 'fooBuffer', 4);
 pipeline.hgetBuffer('hash', 'fooBuffer');
+pipeline.getrangeBuffer('foo', 0, 1);
 pipeline.exec((err, results) => {
     // `err` is always null, and `results` is an array of responses
     // corresponding to the sequence of queued commands.
@@ -389,9 +394,18 @@ redis
     .get('foo', (err, result) => {
         // result === 'QUEUED'
     })
+    .sscan('set', 0)
+    .sscan('set', '0')
+    .hscan('hash', 0)
+    .hscan('hash', '0')
+    .zscan('zset', 0)
+    .zscan('zset', '0')
     .exec((err, results) => {
         // results = [[null, 'OK'], [null, 'OK'], [null, 'baz']]
     });
+
+redis.multi().options;
+redis.multi().redis;
 
 redis
     .multi([
@@ -659,3 +673,8 @@ redis.pipeline()
     .zremrangebylex('foo', '-', '+', (err: Error | null, res: number) => {
         // do something with res or err
     });
+
+redis.options.host;
+redis.status;
+cluster.options.maxRedirections;
+cluster.status;

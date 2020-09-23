@@ -18,6 +18,10 @@ tree.getEntry('/').then(entry => {
     // Use entry
 });
 
+tree.diff(new Git.Tree()).then(diff => {
+    diff.patches();
+});
+
 // AnnotatedCommit Tests
 
 Git.AnnotatedCommit.fromFetchhead(repo, 'branch_name', 'remote_url', id).then(annotatedCommit => {
@@ -54,6 +58,11 @@ result = Git.Attr.value('attr');
 
 const blameOptions = new Git.BlameOptions();
 
+Git.Blame.file(repo, 'path').then(blame => {
+    const hunk = blame.getHunkByLine(0);
+    hunk.linesInHunk();
+});
+
 Git.Branch.lookup(repo, 'branch_name', Git.Branch.BRANCH.LOCAL).then(reference => {
     // Use reference
 });
@@ -81,3 +90,6 @@ repo.getHeadCommit().then(async commit => {
         const filesChanged: Number = stats.filesChanged();
     }
 });
+
+Git.version; // $ExpectType string
+Git.Promise; // $ExpectType PromiseConstructor

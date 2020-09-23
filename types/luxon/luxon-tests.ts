@@ -12,6 +12,9 @@ import {
 } from 'luxon';
 
 /* DateTime */
+DateTime.DATE_MED; // $ExpectType DateTimeFormatOptions
+DateTime.DATE_MED_WITH_WEEKDAY; // $ExpectType DateTimeFormatOptions
+
 const dt = DateTime.local(2017, 5, 15, 8, 30);
 
 const now = DateTime.local();
@@ -197,6 +200,7 @@ Info.weekdays('2-digit');
 Info.features().intl;
 Info.features().intlTokens;
 Info.features().zones;
+Info.features().relative;
 
 /* Settings */
 Settings.defaultLocale;
